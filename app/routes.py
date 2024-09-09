@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.services import get_top_five_songs, analyze_and_cleanup, get_lyrics, analyze_audio , analyze_lyrics
-from app.utils import calculate_similarity
+from app.utils import calculate_similarity, get_song_name
 from app import create_app
 import io
 import requests
@@ -11,7 +11,6 @@ routes = Blueprint('routes', __name__)
 
 @routes.route('/compare-professor-song', methods=['POST'])
 def compare_professor_song():
-
     data = request.get_json()
     # Validate the input
     singer_name = data.get('singer_name')
@@ -21,13 +20,23 @@ def compare_professor_song():
     if not singer_name or not professor_song_url or not professor_song_lyrics:
         return jsonify({'error': 'Missing required parameters'}), 400
 
-    response = requests.get(professor_song_url)
-    audio_bytes = io.BytesIO(response.content)
+    # Validate the professor_song_url
+    if not professor_song_url.lower().endswith('.mp3'):
+        return jsonify({'error': 'The provided URL does not point to an MP3 file'}), 400
 
+    response = requests.get(professor_song_url)
+    
+    # Check if the response is a valid MP3 file
+    if response.headers.get('Content-Type') != 'audio/mpeg':
+        return jsonify({'error': 'The URL does not point to a valid MP3 file'}), 400
+
+    audio_bytes = io.BytesIO(response.content)
+    print(audio_bytes, "audio_bytes-audio_bytes-audio_bytes-audio_bytes")
+    
     # Analyze Professor Remember's song
     professor_audio_analysis = analyze_audio(audio_bytes)
     professor_song_data = {
-        'name': 'Professor Remember\'s Song',
+        'name': get_song_name(professor_song_url),
         'audio': professor_audio_analysis,
         'lyrics': analyze_lyrics(professor_song_lyrics)
     }
@@ -59,7 +68,8 @@ def compare_professor_song():
         results.append({
             'artist_song': song['name'],
             'professor_song': professor_song_data['name'],
-            'similarity': similarity
+            'similarity': similarity,
+            'artist_lyrics': artist_lyrics
         })
 
     return jsonify(results)

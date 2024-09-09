@@ -5,6 +5,13 @@ from app.utils import download_audio
 import librosa
 import numpy as np
 import os
+import asyncio
+import concurrent.futures
+
+def run_async(coro):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    return loop.run_until_complete(coro)
 
 load_dotenv()
 
@@ -47,6 +54,7 @@ def get_top_five_songs(artist_name):
 def analyze_and_cleanup(track_id):
     # Get track information from Spotify
     track_info = sp.track(track_id)
+    print
     track_url = track_info['external_urls']['spotify']
 
     # Define the path to the 'dd' folder

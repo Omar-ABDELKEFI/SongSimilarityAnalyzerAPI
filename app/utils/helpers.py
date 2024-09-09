@@ -53,3 +53,12 @@ def calculate_similarity(song1, song2):
 
     # Overall similarity is the average of audio and lyric similarities
     return safe_mean([audio_similarity, lyric_similarity])
+
+def get_song_name(url):
+    # Split the URL by '/' and get the last part
+    last_part = url.split('/')[-1]
+    
+    # Split the last part by '.mp3' to get the song name
+    song_name = last_part.split('.mp3')[0]
+    
+    return song_name

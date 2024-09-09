@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
 from app.config import Config
+from flask_cors import CORS
 
 def create_app():
     # Initialize the Flask application
     app = Flask(__name__)
-    
+    CORS(app) 
     # Load configuration from the Config class
     app.config.from_object(Config)
 

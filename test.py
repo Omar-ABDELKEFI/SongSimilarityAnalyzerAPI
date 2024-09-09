@@ -1,7 +1,13 @@
-from spotdl import Spotdl
-import os 
-obj = Spotdl(client_id="83c6ca7df97d4fb7be4f758aad013531", client_secret="ea4653f27c9345b2bb7c389b710a9ab5", no_cache=True)
-song_objs = obj.search(["https://open.spotify.com/track/1zi7xx7UVEFkmKfv06H8x0"])
-print(song_objs)
-os.chdir('/workspace/SongSimilarityAnalyzerAPI/spotify_tracks')
-obj.download_songs(song_objs)
+def get_song_name(url):
+    # Split the URL by '/' and get the last part
+    last_part = url.split('/')[-1]
+    
+    # Split the last part by '.mp3' to get the song name
+    song_name = last_part.split('.mp3')[0]
+    
+    return song_name
+
+# Example usage:
+url = "https://tsoul.com/wp-content/uploads/2024/05/Steady-As-A-Rock.mp3"
+song_name = get_song_name(url)
+print(song_name)

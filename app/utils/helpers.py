@@ -30,29 +30,29 @@ def calculate_similarity(song1, song2):
     # Audio similarity is the average of available similarities
     audio_similarity = safe_mean(similarities)
 
-    # Lyric similarity
-    lyric_similarities = []
+    # # Lyric similarity
+    # lyric_similarities = []
 
-    # Sentiment similarity
-    if 'sentiment' in song1['lyrics'] and 'sentiment' in song2['lyrics']:
-        sentiment_sim = song1['lyrics']['sentiment']['compound'] * song2['lyrics']['sentiment']['compound']
-        lyric_similarities.append(sentiment_sim)
+    # # Sentiment similarity
+    # if 'sentiment' in song1['lyrics'] and 'sentiment' in song2['lyrics']:
+    #     sentiment_sim = song1['lyrics']['sentiment']['compound'] * song2['lyrics']['sentiment']['compound']
+    #     lyric_similarities.append(sentiment_sim)
 
-    # Topic similarity
-    if song1['lyrics'].get('topics') and song2['lyrics'].get('topics'):
-        topic_sim = len(set(song1['lyrics']['topics'][0]).intersection(set(song2['lyrics']['topics'][0]))) / 10
-        lyric_similarities.append(topic_sim)
+    # # Topic similarity
+    # if song1['lyrics'].get('topics') and song2['lyrics'].get('topics'):
+    #     topic_sim = len(set(song1['lyrics']['topics'][0]).intersection(set(song2['lyrics']['topics'][0]))) / 10
+    #     lyric_similarities.append(topic_sim)
 
-    # Vocabulary complexity similarity
-    if 'vocabulary_complexity' in song1['lyrics'] and 'vocabulary_complexity' in song2['lyrics']:
-        vocab_sim = 1 - abs(song1['lyrics']['vocabulary_complexity'] - song2['lyrics']['vocabulary_complexity'])
-        lyric_similarities.append(vocab_sim)
+    # # Vocabulary complexity similarity
+    # if 'vocabulary_complexity' in song1['lyrics'] and 'vocabulary_complexity' in song2['lyrics']:
+    #     vocab_sim = 1 - abs(song1['lyrics']['vocabulary_complexity'] - song2['lyrics']['vocabulary_complexity'])
+    #     lyric_similarities.append(vocab_sim)
 
-    # Lyric similarity is the average of available similarities
-    lyric_similarity = safe_mean(lyric_similarities)
+    # # Lyric similarity is the average of available similarities
+    # lyric_similarity = safe_mean(lyric_similarities)
 
     # Overall similarity is the average of audio and lyric similarities
-    return safe_mean([audio_similarity, lyric_similarity])
+    return audio_similarity * 100
 
 def get_song_name(url):
     # Split the URL by '/' and get the last part

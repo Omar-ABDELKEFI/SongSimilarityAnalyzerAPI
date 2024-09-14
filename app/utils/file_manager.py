@@ -51,12 +51,16 @@ def download_audio_from_youtube(youtube_url, output_path='./'):
         os.makedirs(output_path)
     
     ydl_opts = {
+        'verbose': True,
         'format': 'bestaudio/best',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
+       'socket_timeout': 30,
+       'retries': 10,
+       'fragment_retries': 10,
         'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),  # Save file to output_path
     }
 

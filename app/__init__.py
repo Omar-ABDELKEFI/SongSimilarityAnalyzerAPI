@@ -9,7 +9,7 @@ def create_app():
     CORS(app) 
     # Load configuration from the Config class
     app.config.from_object(Config)
-
+    app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB
     # Register Blueprints
     from app.routes import routes
     app.register_blueprint(routes)

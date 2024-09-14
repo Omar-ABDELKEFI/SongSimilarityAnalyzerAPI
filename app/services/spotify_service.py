@@ -51,14 +51,13 @@ def get_top_five_songs(artist_name):
 
     return top_tracks['tracks'][:5]
 
-def analyze_and_cleanup(track_id):
-    # Get track information from Spotify
+def analyze_and_cleanup(track_id, download_folder):    # Get track information from Spotify
     track_info = sp.track(track_id)
     print
     track_url = track_info['external_urls']['spotify']
 
     # Define the path to the 'dd' folder
-    download_folder =  os.getcwd()+'/spotify_tracks'
+    download_folder =  os.getcwd()+ download_folder
 
     # Download the audio file
     print('Downloading audio...')

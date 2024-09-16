@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import render_template,Blueprint, request, jsonify
 from app.services import get_top_five_songs, analyze_and_cleanup, get_lyrics, analyze_audio , analyze_lyrics
 from app.utils import calculate_similarity, get_song_name
 from app import create_app
@@ -89,6 +89,6 @@ def compare_professor_song():
             shutil.rmtree(download_folder)
             print(f'{download_folder} has been removed.')
 
-@routes.route('/health', methods=['GET'])
+@routes.route('/', methods=['GET'])
 def health_check():
-    return jsonify({'status': 'ok'}), 200
+    return render_template('index.html')

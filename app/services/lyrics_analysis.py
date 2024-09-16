@@ -7,7 +7,7 @@ from sklearn.decomposition import LatentDirichletAllocation
 import numpy as np
 
 
-nltk.data.path.append('/workspace/SongSimilarityAnalyzerAPI/nltk')
+nltk.data.path.append('/app/nltk')
 
 
 sia = SentimentIntensityAnalyzer()
